@@ -1,0 +1,314 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <title>long live paint</title>
+    <link href="https://fonts.googleapis.com/css?family=Ubuntu" rel="stylesheet">
+  </head>
+  <body>
+    <style media="screen">
+        * {
+          outline: none;
+        }
+
+        button {
+          background-color: transparent;
+          border: none;
+        }
+
+        main {
+          height: 592px;
+          width: 578px;
+          resize: both;
+        }
+
+        img.reference {
+          height: 595.8px;
+          margin-left: 16px;
+        }
+
+        .win-bg {
+          background-color: #d3cfc7;
+        }
+
+        .win-border {
+          border-style: outset;
+          border-color: #f3f8fc #b3b1ac #b3b1ac #f3f8fc;
+          border-width: .8px;
+          padding: 3px;
+          box-shadow:
+            0.7px 0.7px 0px black,
+            inset -0.5px -0.5px 0px #7A7A7B,
+            inset 0.5px 0.5px 0px #eeedea;
+        }
+
+        .win-border-inset {
+          border-bottom: 1px solid #D5D1C9;
+          border-right: 1px solid #D5D1C9;
+          box-shadow:
+            inset 0.8px 0.8px 0px black,
+            -0.5px -0.5px 0px #7A7A7B,
+            0.5px 0.5px 0px #eeedea;
+        }
+
+        .window {
+          display: flex;
+        }
+
+        .header .header__top {
+          display: flex;
+          align-items: center;
+          justify-content: space-between;
+          font-family: 'Ubuntu';
+          letter-spacing: -.5px;
+          box-sizing: border-box;
+          padding: 2px;
+          width: 100%;
+          height: 20px;
+          color: white;
+          font-size: 11.2px;
+          font-weight: bold;
+          background: linear-gradient(to right, #002867, #a9cae5);
+        }
+
+        .header .header__tabs {
+          display: flex;
+          border-bottom: 1px outset #f7f7f7;
+        }
+
+        .header .header__tab {
+          letter-spacing: -.3px;
+          padding: 4px;
+          font-size: 11.2px;
+        }
+
+        .header .header__tab::first-letter {
+          text-decoration: underline;
+        }
+
+        .header__title {
+          display: flex;
+          max-height: 20px;
+          align-items: center;
+        }
+
+        .header__icon {
+          font-size: 9px;
+          text-align: left;
+          font-weight: bold;
+          padding: 1px;
+          margin: 0;
+          color: black;
+          width: 14px;
+          height: 14px;
+        }
+
+        .content {
+          width: 100%;
+          height: 93%;
+        }
+
+        .content .content__middle {
+          width: 100%;
+          display: flex;
+          background: #7f7f7f;
+        }
+
+        .footer {
+          border-top: 1px outset #f7f7f7;
+          height: 80px;
+          width: 100%;
+        }
+
+        .footer .footer__inner {
+          padding: 8px 2px;
+        }
+
+        .tools {
+          width: 57px;
+          height: 470px;
+        }
+
+        .tools .tools__box {
+          padding: 3px;
+          display: flex;
+          flex-wrap: wrap;
+        }
+
+        .tools .tools__tool {
+          width: 24px;
+          height: 24px;
+          background-size: 20px;
+          background-position: 1px 2px;
+        }
+
+        .tools__tool.tools__tool--selected {
+          border-bottom: 1px solid #D5D1C9;
+          border-right: 1px solid #D5D1C9;
+          box-shadow:
+            inset 1.5px 1.5px 0px black,
+            -0.5px -0.5px 0px #7A7A7B,
+            0.5px 0.5px 0px #eeedea;
+        }
+
+        .tools__tool.tools__tool--pencil {
+          background-image: url('pencil.png');
+        }
+
+
+        .palette {
+          display: flex;
+        }
+
+        .palette__selected {
+          width: 32px;
+          height: 32px;
+          position: relative;
+          background-size: 25px;
+          background-image: url('pattern.png');
+        }
+
+        .palette__selected .palette__color {
+          position: absolute;
+          background-color: white;
+          border-style: outset;
+          border-color: #c8c5be;
+          border-width: 1px;
+          box-shadow:
+            inset -0.5px -0.5px 0px #7A7A7B,
+            -0.5px -0.5px 0px #eeedea;
+        }
+
+        .palette__selected :first-child {
+          position: absolute;
+          z-index: 1;
+          right: 34%;
+          top: 14%;
+        }
+
+        .palette__selected :last-child {
+          position: absolute;
+          right: 10%;
+          top: 36%;
+          z-index: 0;
+        }
+
+        .palette__colors {
+          width: 240px;
+          display: flex;
+          flex-wrap: wrap;
+        }
+
+        .palette__color {
+          margin: 1px;
+          width: 15px;
+          height: 15px;
+          background-color: white;
+        }
+
+        canvas {
+          height: 455px;
+          margin: 4px;
+          background: white;
+          resize: both;
+        }
+    </style>
+    <section class="window">
+      <main class="win-bg win-border">
+        <header class="win-bg header">
+          <section class="header__top">
+            <div class="header__title">
+              <img width="17" height="" src="paint-icon.png" alt="">
+              <span>untitled - Paint</span>
+            </div>
+            <div>
+              <button class="win-bg win-border header__icon"></button>
+              <button class="win-bg win-border header__icon"></button>
+              <button class="win-bg win-border header__icon"></button>
+            </div>
+          </section>
+          <section class="header__tabs">
+            <button class="header__tab">File</button>
+            <button class="header__tab">Edit</button>
+            <button class="header__tab">View</button>
+            <button class="header__tab">Image</button>
+            <button class="header__tab">Colors</button>
+            <button class="header__tab">Help</button>
+          </section>
+        </header>
+        <section class="content">
+          <div class="content__middle">
+            <aside class="win-bg tools">
+              <section class="tools__box">
+                <button class="win-bg win-border tools__tool"></button>
+                <button class="win-bg win-border tools__tool"></button>
+                <button class="win-bg win-border tools__tool"></button>
+                <button class="win-bg win-border tools__tool"></button>
+                <button class="win-bg win-border tools__tool"></button>
+                <button class="win-bg win-border tools__tool"></button>
+                <button class="win-bg win-border tools__tool tools__tool--pencil"></button>
+                <button class="win-bg win-border tools__tool"></button>
+                <button class="win-bg win-border tools__tool"></button>
+                <button class="win-bg win-border tools__tool"></button>
+                <button class="win-bg win-border tools__tool"></button>
+                <button class="win-bg win-border tools__tool"></button>
+                <button class="win-bg win-border tools__tool"></button>
+                <button class="win-bg win-border tools__tool"></button>
+                <button class="win-bg win-border tools__tool"></button>
+                <button class="win-bg win-border tools__tool"></button>
+              </section>
+            </aside>
+            <canvas width="501" height="456"></canvas>
+          </div>
+          <footer class="win-bg footer">
+            <section class="footer__inner">
+              <div class="palette">
+                <div class="palette__selected win-border-inset">
+                  <button data-color="black" class="win-border palette__color"></button>
+                  <button data-color="white" class="win-border palette__color"></button>
+                </div>
+                <div class="palette__colors">
+                  <button data-color="black" class="win-border-inset palette__color"></button>
+                  <button data-color="#7f7f7f" class="win-border-inset palette__color"></button>
+                  <button data-color="#840211" class="win-border-inset palette__color"></button>
+                  <button data-color="#807f22" class="win-border-inset palette__color"></button>
+                  <button data-color="#007f1e" class="win-border-inset palette__color"></button>
+                  <button data-color="#007f7e" class="win-border-inset palette__color"></button>
+                  <button data-color="#00007c" class="win-border-inset palette__color"></button>
+                  <button data-color="#83007d" class="win-border-inset palette__color"></button>
+                  <button class="win-border-inset palette__color"></button>
+                  <button class="win-border-inset palette__color"></button>
+                  <button class="win-border-inset palette__color"></button>
+                  <button class="win-border-inset palette__color"></button>
+                  <button class="win-border-inset palette__color"></button>
+                  <button class="win-border-inset palette__color"></button>
+                  <button class="win-border-inset palette__color"></button>
+                  <button class="win-border-inset palette__color"></button>
+                  <button class="win-border-inset palette__color"></button>
+                  <button class="win-border-inset palette__color"></button>
+                  <button class="win-border-inset palette__color"></button>
+                  <button class="win-border-inset palette__color"></button>
+                  <button class="win-border-inset palette__color"></button>
+                  <button class="win-border-inset palette__color"></button>
+                  <button class="win-border-inset palette__color"></button>
+                  <button class="win-border-inset palette__color"></button>
+                  <button class="win-border-inset palette__color"></button>
+                  <button class="win-border-inset palette__color"></button>
+                  <button class="win-border-inset palette__color"></button>
+                  <button class="win-border-inset palette__color"></button>
+                </div>
+              </div>
+            </section>
+          </footer>
+        </section>
+      </main>
+      <img class="reference" src="http://www.nerdparadise.com/images/mspaint/overlay03.png" alt="">
+    </section>
+    <script>
+      [].forEach.call(
+        document.querySelectorAll('.palette__color'),
+        element => element.style.backgroundColor = element.dataset.color
+      )
+    </script>
+  </body>
+</html>
